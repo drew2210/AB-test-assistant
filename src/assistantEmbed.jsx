@@ -40,11 +40,7 @@ export function AssistantEmbed({ onReady }) {
           layoutComponent={ChatInlineLayout}
           open
           title="A/B Test Assistant"
-          itemComponent={({ item }) => (
-            <article className="assistant-result-card">
-              <h3>{item.objectID}</h3>
-            </article>
-          )}
+          itemComponent={() => null}
         />
       </InstantSearch>
     </div>

@@ -231,6 +231,12 @@ button {
   color: var(--text);
 }
 
+.assistant-live-shell .ais-ChatToolSearchIndexCarouselHeader,
+.assistant-live-shell .ais-Carousel,
+.assistant-live-shell .assistant-result-card {
+  display: none;
+}
+
 .assistant-live-shell .ais-ChatPrompt {
   background: #ffffff;
   padding: 10px 12px 12px;
@@ -283,15 +289,6 @@ button {
   font-size: 0.84rem;
   margin-top: 6px;
   text-align: center;
-}
-
-.assistant-result-card {
-  margin-top: 10px;
-}
-
-.assistant-result-card h3 {
-  font-size: 0.95rem;
-  margin: 0;
 }
 
 @media (max-width: 720px) {
