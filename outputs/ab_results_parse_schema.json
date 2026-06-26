@@ -1,0 +1,54 @@
+{
+  "screenshot_quality": {
+    "usable": true,
+    "reason": "string or null",
+    "missing_detail": [
+      "string"
+    ]
+  },
+  "test_overview": {
+    "test_name": "string or null",
+    "date_range_or_duration": "string or null",
+    "status": "completed | stopped_early | running | unknown"
+  },
+  "variant_summary": {
+    "control": {
+      "index_name": "string or null",
+      "tracked_searches": "string or null",
+      "summary_text": "string or null"
+    },
+    "variant": {
+      "index_name": "string or null",
+      "tracked_searches": "string or null",
+      "summary_text": "string or null"
+    }
+  },
+  "visible_tabs": [
+    "conversion_funnel",
+    "revenue_impact",
+    "search_quality"
+  ],
+  "metrics": [
+    {
+      "tab": "conversion_funnel | revenue_impact | search_quality | unknown",
+      "metric_name": "string",
+      "control_value": "string or null",
+      "variant_value": "string or null",
+      "difference_vs_control": "string or null",
+      "confidence_label": "unconfident | trending_confident | confident | inconclusive | unknown",
+      "confidence_interval_crosses_zero": true,
+      "notes": "string or null"
+    }
+  ],
+  "insights": {
+    "confidence_over_time_visible": true,
+    "revenue_chart_visible": true,
+    "declare_winner_visible": true,
+    "view_analytics_visible": true
+  },
+  "parser_summary": {
+    "primary_readable_takeaway": "string",
+    "confidence_of_summary": "high | medium | low",
+    "recommended_follow_up": "string"
+  }
+}

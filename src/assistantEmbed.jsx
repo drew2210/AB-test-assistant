@@ -8,7 +8,7 @@ const searchClient = algoliasearch(
   'afccb717944ae0a07eaf094147a7170e',
 );
 
-export function AssistantEmbed({ onReady }) {
+export function AssistantEmbed({ hiddenContext, onReady }) {
   const chatRef = useRef(null);
 
   useEffect(() => {
@@ -16,8 +16,31 @@ export function AssistantEmbed({ onReady }) {
       return undefined;
     }
 
-    const sendPrompt = async (prompt) => {
+    const sendPrompt = async (prompt, options = {}) => {
       if (!chatRef.current) {
+        return;
+      }
+
+      if (options.submit) {
+        if (hiddenContext) {
+          chatRef.current.sendMessage({
+            parts: [
+              {
+                type: 'text',
+                text: `<context>${JSON.stringify({
+                  screenshot_analysis: hiddenContext,
+                })}</context>`,
+              },
+              {
+                type: 'text',
+                text: prompt,
+              },
+            ],
+          });
+          return;
+        }
+
+        chatRef.current.sendMessage({ text: prompt });
         return;
       }
 
@@ -29,7 +52,7 @@ export function AssistantEmbed({ onReady }) {
     return () => {
       onReady(null);
     };
-  }, [onReady]);
+  }, [hiddenContext, onReady]);
 
   return (
     <div className="assistant-live-shell">
@@ -37,6 +60,13 @@ export function AssistantEmbed({ onReady }) {
         <Chat
           ref={chatRef}
           agentId="b300bbed-c431-4aa6-97b9-28be0d4011dd"
+          context={() =>
+            hiddenContext
+              ? {
+                  screenshot_analysis: hiddenContext,
+                }
+              : {}
+          }
           layoutComponent={ChatInlineLayout}
           open
           title="A/B Test Assistant"

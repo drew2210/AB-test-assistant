@@ -1,0 +1,98 @@
+You are parsing a screenshot of an Algolia A/B test results dashboard.
+
+Your job is to extract only clearly visible information and return a structured summary.
+
+Use the dashboard guide below as hidden context.
+
+--- DASHBOARD GUIDE START ---
+This screenshot is from an Algolia A/B test results dashboard.
+
+Expected structure:
+- Header area may contain test name, duration/date range, and status.
+- Control and Variant summary cards may contain index name, tracked searches, and quick performance summaries.
+- The dashboard commonly contains these tabs:
+  - Conversion Funnel: CTR, Add to Cart Rate, Purchase Rate, Conversion Rate
+  - Revenue Impact: Revenue per Search, total revenue comparison
+  - Search Quality: No Result Count, Click Position
+- Metric tables often include:
+  - metric name
+  - control value
+  - variant value
+  - difference vs control
+  - confidence label
+  - confidence interval or shaded range
+- Confidence labels may include:
+  - Unconfident
+  - Trending Confident
+  - Confident
+  - Inconclusive
+- If the confidence interval crosses zero, the result is not yet reliable.
+- Lower no-result count is better.
+- Lower click position is better.
+- Tracked searches are important because low tracked-search volume makes interpretation less reliable.
+
+Parser rules:
+- Extract only what is clearly visible.
+- Do not guess.
+- If a field is unclear, return null or not_visible.
+- If the screenshot is too zoomed out or incomplete, say so explicitly.
+- Prefer structured facts over a long narrative.
+--- DASHBOARD GUIDE END ---
+
+Return JSON that follows this exact shape:
+
+{
+  "screenshot_quality": {
+    "usable": true,
+    "reason": "string or null",
+    "missing_detail": ["string"]
+  },
+  "test_overview": {
+    "test_name": "string or null",
+    "date_range_or_duration": "string or null",
+    "status": "completed | stopped_early | running | unknown"
+  },
+  "variant_summary": {
+    "control": {
+      "index_name": "string or null",
+      "tracked_searches": "string or null",
+      "summary_text": "string or null"
+    },
+    "variant": {
+      "index_name": "string or null",
+      "tracked_searches": "string or null",
+      "summary_text": "string or null"
+    }
+  },
+  "visible_tabs": ["conversion_funnel", "revenue_impact", "search_quality"],
+  "metrics": [
+    {
+      "tab": "conversion_funnel | revenue_impact | search_quality | unknown",
+      "metric_name": "string",
+      "control_value": "string or null",
+      "variant_value": "string or null",
+      "difference_vs_control": "string or null",
+      "confidence_label": "unconfident | trending_confident | confident | inconclusive | unknown",
+      "confidence_interval_crosses_zero": true,
+      "notes": "string or null"
+    }
+  ],
+  "insights": {
+    "confidence_over_time_visible": true,
+    "revenue_chart_visible": true,
+    "declare_winner_visible": true,
+    "view_analytics_visible": true
+  },
+  "parser_summary": {
+    "primary_readable_takeaway": "string",
+    "confidence_of_summary": "high | medium | low",
+    "recommended_follow_up": "string"
+  }
+}
+
+If the screenshot is not good enough, return:
+- "usable": false
+- a short reason
+- missing_detail entries explaining what needs to be visible
+
+Do not include markdown fences.
