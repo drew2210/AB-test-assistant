@@ -1,0 +1,24 @@
+{
+  "name": "nextgen-academy",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "algoliasearch": "^5.51.0",
+    "instantsearch.css": "^8.18.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-instantsearch": "^7.30.0"
+  },
+  "devDependencies": {
+    "@rolldown/binding-darwin-arm64": "^1.1.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "lightningcss-darwin-arm64": "^1.32.0",
+    "vite": "^8.0.9"
+  }
+}

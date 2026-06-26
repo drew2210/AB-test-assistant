@@ -1,0 +1,327 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+  --page-bg: #f6f7fc;
+  --panel-bg: #ffffff;
+  --text: #253252;
+  --muted: #66708f;
+  --border: #d9def1;
+  --accent: #2a4fff;
+  --accent-soft: #f1f3ff;
+  --accent-glow: rgba(100, 96, 255, 0.14);
+  --shadow: 0 18px 44px rgba(35, 48, 92, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at bottom center, rgba(118, 104, 255, 0.14), transparent 28%),
+    radial-gradient(circle at top left, rgba(44, 92, 255, 0.08), transparent 24%),
+    linear-gradient(180deg, #fbfcff 0%, var(--page-bg) 100%);
+  color: var(--text);
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.page-shell {
+  margin: 0 auto;
+  max-width: 980px;
+  min-height: 100vh;
+  padding: 28px 22px 40px;
+}
+
+.simple-layout {
+  display: grid;
+  gap: 18px;
+}
+
+.page-header {
+  display: grid;
+  gap: 8px;
+  max-width: 680px;
+}
+
+.eyebrow {
+  color: #41507f;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.page-header h1 {
+  color: #3a32ff;
+  font-size: clamp(2.35rem, 6vw, 3.55rem);
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+  margin: 0;
+}
+
+.page-intro {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 52ch;
+}
+
+.prompt-section {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(217, 222, 241, 0.85);
+  border-radius: 22px;
+  box-shadow: 0 10px 28px rgba(35, 48, 92, 0.06);
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.prompt-section h2 {
+  color: #4e5575;
+  font-size: 0.86rem;
+  letter-spacing: 0.08em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.prompt-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.prompt-pill {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: #374665;
+  font-size: 0.88rem;
+  padding: 8px 12px;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.prompt-pill:hover:not(:disabled) {
+  background: var(--accent-soft);
+  border-color: #bfd0ff;
+  color: #2440c7;
+  transform: translateY(-1px);
+}
+
+.prompt-pill:disabled {
+  opacity: 0.7;
+}
+
+.chat-section,
+.assistant-live-shell,
+.assistant-live-shell .ais-InstantSearch,
+.assistant-live-shell .ais-Chat,
+.assistant-live-shell .ais-ChatInlineLayout,
+.assistant-live-shell .ais-Chat-container {
+  min-height: 760px;
+}
+
+.assistant-live-shell .ais-ChatInlineLayout {
+  --ais-chat-height: 760px;
+  position: relative;
+  width: 100%;
+}
+
+.assistant-live-shell .ais-Chat-container {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.assistant-live-shell .ais-ChatHeader {
+  align-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 16px;
+}
+
+.assistant-live-shell .ais-ChatHeader-title {
+  align-items: center;
+  display: flex;
+  font-size: 0.98rem;
+  font-weight: 800;
+  gap: 8px;
+}
+
+.assistant-live-shell .ais-ChatHeader-title::before {
+  color: var(--accent);
+  content: '✦';
+  font-size: 0.92rem;
+}
+
+.assistant-live-shell .ais-ChatHeader-clear {
+  color: #9aa3c0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.assistant-live-shell .ais-ChatMessages {
+  background: #ffffff;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.assistant-live-shell .ais-ChatMessages-scroll {
+  min-height: 520px;
+}
+
+.assistant-live-shell .ais-ChatMessages-content {
+  gap: 14px;
+  min-height: 100%;
+}
+
+.assistant-live-shell .ais-ChatMessages-empty {
+  color: var(--muted);
+}
+
+.assistant-live-shell .ais-ChatMessage {
+  align-items: flex-start;
+}
+
+.assistant-live-shell .ais-ChatMessage-text {
+  line-height: 1.6;
+}
+
+.assistant-live-shell .ais-ChatMessage-content {
+  background: transparent;
+  box-shadow: none;
+  color: var(--text);
+  padding: 0;
+}
+
+.assistant-live-shell .ais-ChatMessage--assistant .ais-ChatMessage-content,
+.assistant-live-shell .ais-ChatMessage--user .ais-ChatMessage-content {
+  background: transparent;
+  color: var(--text);
+}
+
+.assistant-live-shell .ais-ChatPrompt {
+  background: #ffffff;
+  padding: 10px 12px 12px;
+  position: relative;
+}
+
+.assistant-live-shell .ais-ChatPrompt-header {
+  display: block;
+  height: 0;
+}
+
+.assistant-live-shell .ais-ChatPrompt-body {
+  background: #ffffff;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  box-shadow: 0 0 0 4px var(--accent-glow);
+  overflow: hidden;
+}
+
+.assistant-live-shell .ais-ChatPrompt-textarea {
+  min-height: 52px;
+  max-height: 120px;
+  padding: 14px 16px 0;
+  width: 100%;
+}
+
+.assistant-live-shell .ais-ChatPrompt-actions {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding: 8px 12px 10px;
+}
+
+.assistant-live-shell .ais-ChatPrompt-submit {
+  background: var(--accent);
+  border-radius: 8px;
+  color: #ffffff;
+  height: 24px;
+  width: 24px;
+}
+
+.assistant-live-shell .ais-ChatPrompt-submit svg,
+.assistant-live-shell .ais-ChatPrompt-submit path {
+  fill: #ffffff;
+}
+
+.assistant-live-shell .ais-ChatPrompt-disclaimer {
+  color: #6e78a0;
+  font-size: 0.84rem;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.assistant-result-card {
+  margin-top: 10px;
+}
+
+.assistant-result-card h3 {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .page-shell {
+    padding: 18px 14px 28px;
+  }
+
+  .prompt-pill {
+    text-align: left;
+    width: 100%;
+  }
+
+  .chat-section,
+  .assistant-live-shell,
+  .assistant-live-shell .ais-InstantSearch,
+  .assistant-live-shell .ais-Chat,
+  .assistant-live-shell .ais-ChatInlineLayout,
+  .assistant-live-shell .ais-Chat-container {
+    min-height: 620px;
+  }
+
+  .assistant-live-shell .ais-ChatInlineLayout {
+    --ais-chat-height: 620px;
+  }
+
+  .assistant-live-shell .ais-ChatMessages-scroll {
+    min-height: 400px;
+  }
+
+  .assistant-live-shell .ais-ChatPrompt-textarea {
+    min-height: 48px;
+  }
+}
