@@ -8,54 +8,100 @@ const searchClient = algoliasearch(
   'afccb717944ae0a07eaf094147a7170e',
 );
 
-export function AssistantEmbed({ hiddenContext, onReady }) {
+export function AssistantEmbed({
+  hiddenContext,
+  mode = 'landing',
+  onClearConversation,
+  onInputChange,
+  onSendHandled,
+  sendMessageRequest = null,
+  onSubmitInput,
+}) {
   const chatRef = useRef(null);
+  const lastSentRequestRef = useRef(null);
+  const shellRef = useRef(null);
 
   useEffect(() => {
-    if (!onReady) {
+    if (!sendMessageRequest || sendMessageRequest.id === lastSentRequestRef.current) {
       return undefined;
     }
 
-    const sendPrompt = async (prompt, options = {}) => {
+    function trySend() {
       if (!chatRef.current) {
-        return;
+        return false;
       }
 
-      if (options.submit) {
-        if (hiddenContext) {
-          chatRef.current.sendMessage({
-            parts: [
-              {
-                type: 'text',
-                text: `<context>${JSON.stringify({
-                  screenshot_analysis: hiddenContext,
-                })}</context>`,
-              },
-              {
-                type: 'text',
-                text: prompt,
-              },
-            ],
-          });
-          return;
-        }
+      lastSentRequestRef.current = sendMessageRequest.id;
+      chatRef.current.sendMessage({ text: sendMessageRequest.text });
+      onInputChange?.('');
+      onSendHandled?.();
+      return true;
+    }
 
-        chatRef.current.sendMessage({ text: prompt });
-        return;
+    if (trySend()) {
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      if (trySend()) {
+        window.clearInterval(intervalId);
       }
-
-      chatRef.current.setInput(prompt);
-    };
-
-    onReady(sendPrompt);
+    }, 80);
 
     return () => {
-      onReady(null);
+      window.clearInterval(intervalId);
     };
-  }, [hiddenContext, onReady]);
+  }, [onInputChange, onSendHandled, sendMessageRequest]);
+
+  useEffect(() => {
+    const shell = shellRef.current;
+
+    if (!shell) {
+      return undefined;
+    }
+
+    function handleInput(event) {
+      if (event.target instanceof HTMLTextAreaElement) {
+        onInputChange?.(event.target.value);
+      }
+    }
+
+    function handleSubmit() {
+      const textarea = shell.querySelector('.ais-ChatPrompt-textarea');
+
+      if (textarea instanceof HTMLTextAreaElement) {
+        onSubmitInput?.(textarea.value);
+      }
+    }
+
+    function handleClick(event) {
+      const target = event.target;
+
+      if (
+        target instanceof Element &&
+        target.closest('.ais-ChatHeader-clear')
+      ) {
+        onInputChange?.('');
+        onClearConversation?.();
+      }
+    }
+
+    shell.addEventListener('input', handleInput, true);
+    shell.addEventListener('submit', handleSubmit, true);
+    shell.addEventListener('click', handleClick, true);
+
+    return () => {
+      shell.removeEventListener('input', handleInput, true);
+      shell.removeEventListener('submit', handleSubmit, true);
+      shell.removeEventListener('click', handleClick, true);
+    };
+  }, [onClearConversation, onInputChange, onSubmitInput]);
 
   return (
-    <div className="assistant-live-shell">
+    <div
+      ref={shellRef}
+      className={`assistant-live-shell assistant-live-shell--${mode}`}
+    >
       <InstantSearch searchClient={searchClient}>
         <Chat
           ref={chatRef}
